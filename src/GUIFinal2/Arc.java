@@ -18,25 +18,25 @@ public class Arc {
 		toPlace = p;
 		toTrans = t;
 		arcToPlace = false;//************wc
-		objId = t.transId();//返回指向的transition的ID
+		objId = t.transId();
 	}
 
 	public Arc(Transition t, Place p) {//   t->p
 		toTrans = t;
 		toPlace = p;
 		arcToPlace = true;//***************
-		objId = p.placeId();//返回place的int型 id
+		objId = p.placeId();
 	}
 
 	public void paint(Graphics g) {
 		Rectangle s, e;// start and end
 
-		if (arcToPlace)//t->p为真，
+		if (arcToPlace)//t->p，
 			s = toTrans.bounds();//start：t
 		else
 			s = toPlace.bounds();//
 
-		if (arcToPlace)//t->p为真
+		if (arcToPlace)//t->p
 			e = toPlace.bounds();//end : p
 		else
 			e = toTrans.bounds();
@@ -44,7 +44,7 @@ public class Arc {
 		int dx = Math.abs(e.x - s.x);
 		int dy = Math.abs(e.y - s.y);
 
-		if (e.x >= s.x + s.width && dx >= dy) {// end 的坐标大于start的坐标
+		if (e.x >= s.x + s.width && dx >= dy) {
 			x1 = s.x + s.width;
 			y1 = s.y + s.height / 4 * 3;
 
