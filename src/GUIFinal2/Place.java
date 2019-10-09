@@ -21,7 +21,7 @@ public class Place {
 	final static int SIZE = 30, LSIZE = 60, TOKEN_SIZE = 10;
 	public Color colorNormal, colorSelected, colorActive, colorHighlight, c;
 	JTextField labelField;
-	public Place(int i, int x, int y) {//x,y为鼠标的坐标
+	public Place(int i, int x, int y) {
 		placeId = i;
 		currentX = prevX = x;
 		currentY = prevY = y;
@@ -73,7 +73,7 @@ public class Place {
 	}
 	
 	
-	public void dragStart(int x, int y) {//x,y为鼠标的坐标
+	public void dragStart(int x, int y) {
 		dragX = x;
 		dragY = y;
 		prevState = currentState;
@@ -97,9 +97,9 @@ public class Place {
 	}
 
 
-	public void paint(Graphics g) {//根据状态画不同颜色的⭕️
+	public void paint(Graphics g) {
 		removePlace(g);
-		if (!valid)// 
+		if (!valid)
 			return;
 		switch (currentState) {
 		case MOVING:
@@ -116,16 +116,15 @@ public class Place {
 			c = colorNormal;
 			break;
 		}
-		g.setColor(c);// 根据操作设置颜色
-		g.drawOval(currentX, currentY, SIZE, SIZE);// 画一个place
-		//System.out.println("进入drawOval了");
+		g.setColor(c);
+		g.drawOval(currentX, currentY, SIZE, SIZE);
 	
 		if (tokenCounter > 0) {
 			g.drawOval(currentX + SIZE / 2 - TOKEN_SIZE / 2, currentY + SIZE - TOKEN_SIZE * 2, TOKEN_SIZE, TOKEN_SIZE);// 画token的圆
 			g.fillOval(currentX + SIZE / 2 - TOKEN_SIZE / 2, currentY + SIZE - TOKEN_SIZE * 2, TOKEN_SIZE, TOKEN_SIZE);
 			if (tokenCounter > 1)
 				g.drawString((new Integer(tokenCounter)).toString(), currentX + SIZE / 2 - 3, currentY + SIZE / 2 - 5);
-		} // 显示token的数量
+		} 
 
 		for (int i = 0; i < arcs.size(); i++) {
 			arc = (Arc) (arcs.elementAt(i));
@@ -145,7 +144,7 @@ public class Place {
 			}
 
 			g.setColor(c);// 
-			arc.paint(g);// 调用arc的paint
+			arc.paint(g);
 		}
 		
 		//g.drawString(label, currentX + SIZE + 5, currentY + SIZE - 35);
@@ -177,11 +176,11 @@ public class Place {
 	}
 
 	// check if the place inside the
-	public boolean inside(int x, int y) {//鼠标在长方形的区域内
+	public boolean inside(int x, int y) {
 		return (x >= currentX && x <= currentX + SIZE && y >= currentY && y <= currentY + SIZE);
 	}
 
-	public void move(int x, int y) {//move就是把当前的鼠标的位置给place
+	public void move(int x, int y) {
 		currentX = x;
 		currentY = y;
 	}
@@ -209,32 +208,31 @@ public class Place {
 
 	
 	public void addArc(Transition t) {
-		//先检查是否已经连接上此transition
+		
 		for (int i = 0; i < arcs.size(); i++) {
 			arc = (Arc) (arcs.elementAt(i));
 			if (arc.trans() == t)//return toTrans
 				return;
 		}
-		System.out.println("情况1:调用了place的add arc ");
+		
 		Arc arc = new Arc(this, t);//arcToPlace=false
-		arcs.addElement( arc);// 将指向transition的arc加入向量的尾部。
-		System.out.println("情况1:调用了tran的add arc in");
+		arcs.addElement( arc);
+		
 		t.addArcIn(arc);
 	}
 
 	
 	public void removeArc(Transition t) {// place->transition
-		System.out.println("情况1-3");
+		
 		for (int i = 0; i < arcs.size(); i++) {
 			arc = (Arc) (arcs.elementAt(i));
 			if (arc.trans() == t) {
 				removeArc = arc;
-				System.out.println("情况1-4开始");
-				removeArc.trans().removeArcIn(removeArc);// 返回toTrans，remove 进入这个transition的arc(place->transition)
+				
+				removeArc.trans().removeArcIn(removeArc);
 				//return;
 			}
 		}
-		System.out.println("！！！！结束情况1===");
 	}
 
 	public void addToken() {
